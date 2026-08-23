@@ -17,7 +17,7 @@ An enterprise AI support agent prototype built for **ParcelPilot** (CalQuity Ass
 ## Tech Stack
 
 * **Frontend:** Streamlit
-* **LLM Engine:** Google Gemini (`gemini-2.5-flash`) via `google-genai` SDK
+* **LLM Engine:** Google Gemini API via `google-genai` SDK
 * **Data Ingestion:** Pandas (Excel processing)
 * **Document Parser:** PyPDF
 * **Environment Management:** python-dotenv
@@ -28,26 +28,51 @@ An enterprise AI support agent prototype built for **ParcelPilot** (CalQuity Ass
 
 ```text
 ParcelPilot-AI-Agent/
-├── app.py                           # Core Streamlit application & LLM tool orchestration
+├── app.py                            # Core Streamlit application & LLM tool orchestration
 ├── ParcelPilot_Assessment_Data.xlsx  # Orders & Tickets database
-├── 01_Carrier_Delay_Policy_v3.pdf   # Active policy document
-├── 02_Lost_Package_Standard_v1.pdf  # Active policy document
-├── 03_High_Value_Claim_SOP_v1.pdf   # Active policy document
-├── 04_Northstar_Agreement_v1.pdf    # Enterprise contract override
-├── 05_LumenWorks_Agreement_v1.pdf   # Enterprise contract override
-├── 06_International_Shipping_v1.pdf # Active policy document
-├── requirements.txt                 # Project dependencies
-├── .env.example                     # Environment variables template
-├── .gitignore                       # Git exclusion rules
-└── README.md                        # Documentation
+├── 01_Carrier_Delay_Policy_v3.pdf    # Active policy document
+├── 02_Lost_Package_Standard_v1.pdf   # Active policy document
+├── 03_High_Value_Claim_SOP_v1.pdf    # Active policy document
+├── 04_Northstar_Agreement_v1.pdf     # Enterprise contract override
+├── 05_LumenWorks_Agreement_v1.pdf    # Enterprise contract override
+├── 06_International_Shipping_v1.pdf  # Active policy document
+├── requirements.txt                  # Project dependencies
+├── .env.example                      # Environment variables template
+├── .gitignore                        # Git exclusion rules
+└── README.md                         # Documentation
+```
 
+### Getting Started Locally
+1. Prerequisites
+Ensure you have Python 3.10+ installed on your system.
 
-## Getting Started Locally
+2. Clone the Repository
+```git clone [https://github.com/mrugakshiharkare/ParcelPilot-AI-Agent.git](https://github.com/mrugakshiharkare/ParcelPilot-AI-Agent.git)```
+```cd ParcelPilot-AI-Agent```
 
-### 1. Prerequisites
-Ensure you have **Python 3.10+** installed on your system.
+3. Set Up Virtual Environment
+```python -m venv venv```
+- Windows: venv\Scripts\activate
+- macOS/Linux: source venv/bin/activate
 
-### 2. Clone the Repository
-```bash
-git clone [https://github.com/mrugakshiharkare/ParcelPilot-AI-Agent.git](https://github.com/mrugakshiharkare/ParcelPilot-AI-Agent.git)
-cd ParcelPilot-AI-Agent
+4. Install Dependencies
+```pip install -r requirements.txt```
+
+5. Configure API Key
+Create a .env file in the root directory:   
+~Code snippet`
+GEMINI_API_KEY=your_actual_gemini_api_key_here
+
+6. Run the Application
+```streamlit run app.py```
+
+## System Design & Tool Architecture
+1. Structured Data Lookup (tool_structured_data_lookup): Queries ParcelPilot_Assessment_Data.xlsx to pull live order and ticket information using strict Account ID filters.
+
+2. Unstructured Retrieval (tool_document_retrieval): Ingests PDF policies into memory, stripping out deprecated files (Policy v2), and passes relevant context to Gemini for reasoning.
+
+3. Escalation Engine (tool_escalate_ticket): Flags high-priority or unresolved tickets with an interactive human confirmation UI step before committing state changes.
+
+## Access Control & Guardrails
+- Internal Support Staff: Full visibility across all accounts and ticket histories.
+- Customer Accounts (Northstar / LumenWorks): Strictly scoped to their respective Account IDs. Queries requesting data outside their assigned scope return an explicit ⚠️ ACCESS DENIED response directly at the Python tool boundary.
