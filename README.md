@@ -79,7 +79,7 @@ GEMINI_API_KEY=your_actual_gemini_api_key_here
 
 ## Architecture Note
 
-* **Agent & Tool Design:** Constructed a tool-calling AI agent using Streamlit and the `google-genai` SDK (`gemini-2.5-flash`). The core orchestration layer routes user queries dynamically across three modular Python tools:
+* **Agent & Tool Design:** Constructed a tool-calling AI agent using Streamlit and the `google-genai` SDK (`gemini-3.6-flash`). The core orchestration layer routes user queries dynamically across three modular Python tools:
   1. `tool_structured_data_lookup`: Performs Pandas queries on Excel order/ticket data.
   2. `tool_document_retrieval`: Searches indexed PDF knowledge base files using PyPDF text extraction.
   3. `tool_escalate_ticket`: Triggers state-changing ticket escalations with human confirmation UI guardrails.
