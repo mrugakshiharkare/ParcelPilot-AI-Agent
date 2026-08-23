@@ -40,3 +40,14 @@ ParcelPilot-AI-Agent/
 ├── .env.example                     # Environment variables template
 ├── .gitignore                       # Git exclusion rules
 └── README.md                        # Documentation
+
+
+## Getting Started Locally
+
+### 1. Prerequisites
+Ensure you have **Python 3.10+** installed on your system.
+
+### 2. Clone the Repository
+```bash
+git clone [https://github.com/mrugakshiharkare/ParcelPilot-AI-Agent.git](https://github.com/mrugakshiharkare/ParcelPilot-AI-Agent.git)
+cd ParcelPilot-AI-Agent
